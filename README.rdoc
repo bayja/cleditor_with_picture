@@ -1,0 +1,20 @@
+= CleditorWithPicture
+
+This project uses MIT-LICENSE.
+
+add dependency to gemfile
+gem 'carrierwave'
+gem 'mini_magick'
+
+add routes
+mount CleditorWithPicture::Engine => "/cleditor_with_picture"
+
+install migration to save editor_pictures
+rake cleditor_with_picture:install:migrations
+
+extend module to set associations between parent model and picture
+include CleditorWithPicture::AssociateWithEditorPicture
+
+call cleditor on text area
+$(".cleditor").cleditor();
+
