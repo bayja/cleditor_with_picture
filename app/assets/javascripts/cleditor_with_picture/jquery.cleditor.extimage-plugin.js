@@ -55,10 +55,10 @@
 
 		$(data.popup)
 			.children(":button")
-			.unbind("click")
-			.bind("click", function(e) {
+			.off("click")
+			.on("click", function(e) {
 				if($file.val()) { // proceed if any file was selected
-					$iframe.bind('load', function() {
+					$iframe.on('load', function() {
 						var response;
 						var file_url;
 						var picture_id;
@@ -71,12 +71,13 @@
               picture_id = $iframe.get(0).contentWindow.document.getElementById('picture_id').innerHTML;
 						} catch(e) {};
 						if(file_url) {
+							editor.$frame[0].contentWindow.focus(); // for ie execComment "inserimage" bug //http://social.msdn.microsoft.com/Forums/en/iewebdevelopment/thread/1b8bfc9d-0746-4bc4-b7ca-9ebe3132877b
 							editor.execCommand(data.command, file_url, null, data.button);
 							$parent_form.append("<input type='hidden' value='"+ picture_id +"' name='"+ param_name +"[child_picture_ids][]'>")
 						} else {
 							alert('이미지 업로드 중 오류가 발행했습니다.');
 						}
-						$iframe.unbind('load');
+						$iframe.off('load');
 						closePopup(editor);
 					});
 					$(data.popup).find('form').attr('action', $.cleditor.buttons.image.uploadUrl).submit();
